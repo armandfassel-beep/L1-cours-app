@@ -1,6 +1,7 @@
 {
   "matieres": [
     "comptabilite.json",
-    "macroeconomie.json"
+    "macroeconomie.json",
+    "microeconomie.json"
   ]
 }

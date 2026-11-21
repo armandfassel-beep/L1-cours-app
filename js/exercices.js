@@ -43,6 +43,8 @@ function tableauHTML(t) {
      guides:  [{ x, y, lx?, ly? }],            // pointillés vers les axes + étiquettes
      points:  [{ x, y, label }],
      fleches: [{ de:[x,y], a:[x,y] }],
+     courbes: [{ points:[[x,y],…], label, couleur?, pointille? }],
+     zones:   [{ points:[[x,y],…], couleur?, label? }],   // surfaces colorées
      gradx?: [valeurs], grady?: [valeurs]      // graduations chiffrées
    }
    --------------------------------------------------------- */
@@ -70,6 +72,23 @@ function figureHTML(f) {
     s += '<polyline class="fig-guide" points="' + X(g.x) + ',' + Y(ymin) + ' ' + X(g.x) + ',' + Y(g.y) + ' ' + X(xmin) + ',' + Y(g.y) + '"/>';
     if (g.lx) s += txt(X(g.x), Y(ymin) + 16, g.lx, 'middle', 'fig-lab');
     if (g.ly) s += txt(X(xmin) - 6, Y(g.y) + 4, g.ly, 'end', 'fig-lab');
+  });
+  // surfaces colorées (surplus, pertes, profit) : polygones
+  (f.zones || []).forEach(function (z) {
+    var c = 'var(--serie-' + (z.couleur || 1) + ')';
+    s += '<polygon class="fig-zone" style="fill:' + c + '" points="' + z.points.map(function (p) { return X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join(' ') + '"/>';
+    if (z.label) {
+      var cx = 0, cy = 0;
+      z.points.forEach(function (p) { cx += p[0]; cy += p[1]; });
+      cx /= z.points.length; cy /= z.points.length;
+      s += txt(X(cx), Y(cy) + 4, z.label, 'middle', 'fig-lab fig-zone-t');
+    }
+  });
+  // courbes (lignes brisées : coûts en U, offre/demande en escalier…)
+  (f.courbes || []).forEach(function (k) {
+    var c = 'var(--serie-' + (k.couleur || 1) + ')';
+    s += '<polyline class="fig-droite' + (k.pointille ? ' pointille' : '') + '" style="fill:none;stroke:' + c + '" points="' + k.points.map(function (p) { return X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join(' ') + '"/>';
+    if (k.label) { var d = k.points[k.points.length - 1]; s += txt(X(d[0]) + 6, Y(d[1]) - 6, k.label, 'start', 'fig-lab'); }
   });
   (f.droites || []).forEach(function (d) {
     var c = 'var(--serie-' + (d.couleur || 1) + ')';

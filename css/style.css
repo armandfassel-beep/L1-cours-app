@@ -364,3 +364,5 @@ code { font-family: ui-monospace, Menlo, monospace; background: var(--surface-2)
 .source { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 99px; background: var(--accent-doux); color: var(--accent); font-size: .74rem; letter-spacing: 0; text-transform: none; font-weight: 650; vertical-align: 1px; }
 ul.formules { list-style: none; padding: 0; }
 ul.formules li { background: var(--surface-2); border-radius: 10px; padding: 8px 12px; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.figure .fig-zone { opacity: .28; stroke: none; }
+.figure .fig-zone-t { font-size: 13px; }

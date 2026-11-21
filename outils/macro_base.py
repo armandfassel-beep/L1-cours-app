@@ -49,8 +49,12 @@ def seg(p1, p2, label=None, couleur=1, pointille=False):
     return d
 
 
-def fig(xlabel, ylabel, xmax, ymax, droites=(), titre=None, bissectrice=False, guides=(), points=(), fleches=(), gradx=None, grady=None, xmin=0, ymin=0):
+def fig(xlabel, ylabel, xmax, ymax, droites=(), titre=None, bissectrice=False, guides=(), points=(), fleches=(), gradx=None, grady=None, xmin=0, ymin=0, courbes=(), zones=()):
     f = {'xlabel': xlabel, 'ylabel': ylabel, 'xmax': xmax, 'ymax': ymax, 'droites': list(droites)}
+    if courbes:
+        f['courbes'] = list(courbes)
+    if zones:
+        f['zones'] = list(zones)
     if xmin:
         f['xmin'] = xmin
     if ymin:
@@ -86,3 +90,29 @@ def gd(x, y, lx=None, ly=None):
     if ly:
         g['ly'] = ly
     return g
+
+
+def courbe(points, label=None, couleur=1, pointille=False):
+    k = {'points': [[r2(x), r2(y)] for x, y in points], 'couleur': couleur}
+    if label:
+        k['label'] = label
+    if pointille:
+        k['pointille'] = True
+    return k
+
+
+def zone(points, couleur=1, label=None):
+    z = {'points': [[r2(x), r2(y)] for x, y in points], 'couleur': couleur}
+    if label:
+        z['label'] = label
+    return z
+
+
+def escalier(paliers, sens='demande'):
+    """Courbe en escalier : paliers = [(prix, nombre)] ; demande triée par prix décroissant, offre par prix croissant."""
+    pts, q = [], 0
+    for p, n in paliers:
+        pts.append((q, p))
+        q += n
+        pts.append((q, p))
+    return pts
