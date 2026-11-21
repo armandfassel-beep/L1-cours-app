@@ -64,3 +64,6 @@ Tableau : `{ "titre": "…", "entetes": ["A", "B"], "lignes": [["x", 100], ["y",
 ```
 
 - `formules` (dans une fiche) : liste de formules affichées dans un encadré.
+- Dans `figure`, deux champs supplémentaires (ajoutés avec la Microéconomie) :
+  - `courbes` : `[{ "points": [[x, y], …], "label": "Cm", "couleur": 2, "pointille": false }]` — lignes brisées (coûts en U, offre et demande en escalier) ;
+  - `zones` : `[{ "points": [[x, y], …], "couleur": 1, "label": "SC" }]` — surfaces colorées (surplus, perte sèche, profit).
