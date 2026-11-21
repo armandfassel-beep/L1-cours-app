@@ -22,3 +22,7 @@ puis ouvrir http://localhost:8000 dans le navigateur.
 ## En ligne (GitHub Pages)
 
 Settings → Pages → Source : « Deploy from a branch », branche `main`, dossier `/ (root)` → Save. L'adresse sera `https://<pseudo>.github.io/L1-cours-app/`.
+
+## Contenu des matières
+
+`data/comptabilite.json` est généré par les scripts du dossier `outils/` (`python3 outils/comptabilite.py`), qui vérifient automatiquement les calculs (écritures équilibrées, réponses valides). Les PDF de cours ne sont pas publiés dans le dépôt.
