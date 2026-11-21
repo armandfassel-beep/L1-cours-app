@@ -1,0 +1,132 @@
+{
+  "id": "demo",
+  "nom": "Démo (à supprimer)",
+  "icone": "🧪",
+  "description": "Matière d'essai pour tester les 5 types d'exercices. Elle sera retirée quand les vraies matières seront ajoutées.",
+  "comptes": {
+    "401": "Fournisseurs",
+    "411": "Clients",
+    "44566": "TVA déductible sur ABS",
+    "44571": "TVA collectée",
+    "512": "Banque",
+    "530": "Caisse",
+    "607": "Achats de marchandises",
+    "707": "Ventes de marchandises"
+  },
+  "parties": [
+    {
+      "id": "p1",
+      "titre": "Partie 1 — Essais",
+      "chapitres": [
+        {
+          "id": "ch1",
+          "titre": "Chapitre 1 — Questions de cours",
+          "notions": [
+            {
+              "id": "partie-double",
+              "titre": "La partie double (exemple)",
+              "fiche": {
+                "definition": "Toute opération est enregistrée **au moins deux fois** : au débit d'un ou plusieurs comptes et au crédit d'un ou plusieurs autres, pour un **même montant total**.",
+                "points": [
+                  "Total des débits = total des crédits.",
+                  "Un emploi se note au **débit**, une ressource au **crédit**."
+                ],
+                "exemple": "Achat de marchandises 1 000 € HT payé par banque :\n607 au débit 1 000 / 512 au crédit 1 000.",
+                "attention": "Ceci est un contenu d'exemple, pas le cours officiel."
+              },
+              "exercices": [
+                {
+                  "type": "vf",
+                  "niveau": 1,
+                  "question": "En partie double, le total des débits est toujours égal au total des crédits.",
+                  "reponse": true,
+                  "explication": "C'est le principe même de la partie double : chaque écriture est équilibrée."
+                },
+                {
+                  "type": "qcm",
+                  "niveau": 1,
+                  "question": "Quel compte enregistre les achats de marchandises ?",
+                  "choix": ["607", "707", "512", "401"],
+                  "reponse": 0,
+                  "explication": "Classe 6 = charges ; 607 = Achats de marchandises. Le 707 enregistre les ventes."
+                },
+                {
+                  "type": "qcm",
+                  "niveau": 2,
+                  "question": "Quels comptes sont des comptes de tiers (classe 4) ?",
+                  "choix": ["401 Fournisseurs", "411 Clients", "512 Banque", "607 Achats"],
+                  "reponses": [0, 1],
+                  "explication": "La classe 4 regroupe les comptes de tiers : fournisseurs (401), clients (411), TVA (445)…"
+                },
+                {
+                  "type": "courte",
+                  "niveau": 2,
+                  "question": "Explique en une phrase ce qu'est la partie double.",
+                  "reponse": "Chaque opération est inscrite au débit d'au moins un compte et au crédit d'au moins un autre, pour le même montant total.",
+                  "explication": "Il faut retrouver l'idée de **double enregistrement** et d'**égalité débit = crédit**."
+                }
+              ]
+            },
+            {
+              "id": "tva-demo",
+              "titre": "Calcul de TVA (exemple)",
+              "fiche": {
+                "definition": "TVA = montant HT × taux. TTC = HT + TVA.",
+                "points": ["Taux normal : 20 %.", "HT = TTC ÷ 1,20 au taux normal."],
+                "tableau": {
+                  "nom": "Exemple de facture",
+                  "entetes": ["Élément", "Montant"],
+                  "lignes": [["Montant HT", 1000], ["TVA 20 %", 200], ["Net à payer TTC", 1200]]
+                }
+              },
+              "exercices": [
+                {
+                  "type": "calcul",
+                  "niveau": 1,
+                  "question": "Une facture de 2 500 € HT est soumise à la TVA à 20 %. Quel est le montant de la TVA ?",
+                  "reponse": 500,
+                  "unite": "€",
+                  "explication": "2 500 × 20 % = **500 €**."
+                },
+                {
+                  "type": "calcul",
+                  "niveau": 2,
+                  "question": "Un client paie 1 440 € TTC (TVA 20 %). Quel est le montant HT ?",
+                  "reponse": 1200,
+                  "unite": "€",
+                  "explication": "HT = 1 440 ÷ 1,20 = **1 200 €**."
+                },
+                {
+                  "type": "ecriture",
+                  "niveau": 2,
+                  "question": "Enregistre au journal l'achat à crédit de marchandises : 1 000 € HT, TVA 20 %.",
+                  "lignes": [
+                    { "compte": "607", "intitule": "Achats de marchandises", "debit": 1000 },
+                    { "compte": ["44566", "4456"], "intitule": "TVA déductible sur ABS", "debit": 200 },
+                    { "compte": "401", "intitule": "Fournisseurs", "credit": 1200 }
+                  ],
+                  "explication": "La charge (607) et la TVA récupérable (44566) sont au **débit** ; la dette envers le fournisseur (401) est au **crédit** pour le TTC."
+                },
+                {
+                  "type": "ecriture",
+                  "niveau": 3,
+                  "question": "Enregistre la vente au comptant (encaissée par banque) d'après la facture ci-dessous.",
+                  "tableau": {
+                    "entetes": ["Facture n° 12", "Montant"],
+                    "lignes": [["Marchandises HT", 3000], ["TVA 20 %", 600], ["Net à payer", 3600]]
+                  },
+                  "lignes": [
+                    { "compte": "512", "intitule": "Banque", "debit": 3600 },
+                    { "compte": "707", "intitule": "Ventes de marchandises", "credit": 3000 },
+                    { "compte": ["44571", "4457"], "intitule": "TVA collectée", "credit": 600 }
+                  ],
+                  "explication": "La banque augmente (débit 512) ; la vente est un produit (crédit 707) et la TVA collectée est une dette envers l'État (crédit 44571)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
