@@ -132,6 +132,8 @@ var Pages = {
     if (f.definition) h += '<h2>Définition</h2><div class="encadre">' + fmt(f.definition) + '</div>';
     if (f.points && f.points.length) h += '<h2>Points clés</h2><ul>' + f.points.map(function (p) { return '<li>' + fmt(p) + '</li>'; }).join('') + '</ul>';
     if (f.tableau) h += '<h2>' + esc(f.tableau.nom || 'Tableau') + '</h2>' + tableauHTML(f.tableau);
+    if (f.figure) h += '<h2>Graphique</h2>' + figureHTML(f.figure);
+    if (f.formules && f.formules.length) h += '<h2>Formules</h2><ul class="formules">' + f.formules.map(function (x) { return '<li>' + fmt(x) + '</li>'; }).join('') + '</ul>';
     if (f.exemple) h += '<h2>Exemple</h2><div class="encadre exemple">' + fmt(f.exemple) + '</div>';
     if (f.attention) h += '<h2>Attention</h2><div class="encadre attention">' + fmt(f.attention) + '</div>';
     if (!f.definition && !f.points && !f.exemple) h += '<p class="muet">Pas encore de fiche pour cette notion.</p>';
@@ -334,6 +336,7 @@ var Pages = {
         if (!e) { h += '<div class="carte muet">Exercice supprimé depuis.</div>'; return; }
         h += '<div class="carte erreur"><div class="enonce-type">' + esc(e.notion.titre) + ' · ' + LIBELLES_TYPES[e.type] + '</div>' +
           '<div class="question">' + fmt(e.question) + '</div>' +
+          (e.figure ? figureHTML(e.figure) : '') +
           (e.tableau ? tableauHTML(e.tableau) : '') +
           Exercices.correctionHTML(e, d.rep, d.s, m) + '</div>';
       });

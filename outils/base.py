@@ -66,8 +66,10 @@ def qcm(question, choix, reponse, explication, niveau=1, **kw):
     return e
 
 
-def vf(question, reponse, explication, niveau=1):
-    return {'type': 'vf', 'niveau': niveau, 'question': question, 'reponse': reponse, 'explication': explication}
+def vf(question, reponse, explication, niveau=1, **kw):
+    e = {'type': 'vf', 'niveau': niveau, 'question': question, 'reponse': reponse, 'explication': explication}
+    e.update(kw)
+    return e
 
 
 def courte(question, reponse, explication='', niveau=2):
@@ -77,7 +79,7 @@ def courte(question, reponse, explication='', niveau=2):
     return e
 
 
-def calc(question, reponse, explication, niveau=2, unite='€', tolerance=0.01, tableau=None):
+def calc(question, reponse, explication, niveau=2, unite='€', tolerance=0.01, tableau=None, **kw):
     e = {'type': 'calcul', 'niveau': niveau, 'question': question, 'reponse': r2(reponse), 'explication': explication}
     if unite:
         e['unite'] = unite
@@ -85,6 +87,7 @@ def calc(question, reponse, explication, niveau=2, unite='€', tolerance=0.01, 
         e['tolerance'] = tolerance
     if tableau:
         e['tableau'] = tableau
+    e.update(kw)
     return e
 
 

@@ -45,3 +45,22 @@ Champs communs : `type`, `question`, `niveau` (1 à 3), `explication`, `tableau`
 | `ecriture` | `lignes: [{ "compte": "607", "intitule": "…", "debit": 1000 }, { "compte": ["44566","4456"], "credit": 200 }]` (plusieurs numéros acceptés possibles) |
 
 Tableau : `{ "titre": "…", "entetes": ["A", "B"], "lignes": [["x", 100], ["y", 200]] }` (les nombres sont alignés à droite et formatés).
+
+## Champs facultatifs (ajoutés avec la Macroéconomie)
+
+- `source` (sur un exercice) : petite étiquette affichée, ex. `"Tiré du TD 2"`, `"Inspiré du TD 4"`, `"D'après le cours"`.
+- `figure` (sur un exercice ou dans une fiche) : graphique dessiné par l'appli → l'exercice devient « Lecture de graphique ».
+
+```
+"figure": {
+  "titre": "…", "xlabel": "Y", "ylabel": "C", "xmin": 0, "xmax": 100, "ymin": 0, "ymax": 100,
+  "bissectrice": true,
+  "droites": [{ "p1": [0, 30], "p2": [100, 80], "label": "C", "couleur": 1, "pointille": false }],
+  "guides":  [{ "x": 60, "y": 60, "lx": "Y1", "ly": "A" }],
+  "points":  [{ "x": 60, "y": 60, "label": "E" }],
+  "fleches": [{ "de": [40, 70], "a": [55, 70] }],
+  "gradx": [50, 100], "grady": [50, 100]
+}
+```
+
+- `formules` (dans une fiche) : liste de formules affichées dans un encadré.

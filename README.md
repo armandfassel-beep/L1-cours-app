@@ -25,4 +25,4 @@ Settings → Pages → Source : « Deploy from a branch », branche `main`, doss
 
 ## Contenu des matières
 
-`data/comptabilite.json` est généré par les scripts du dossier `outils/` (`python3 outils/comptabilite.py`), qui vérifient automatiquement les calculs (écritures équilibrées, réponses valides). Les PDF de cours ne sont pas publiés dans le dépôt.
+`data/comptabilite.json` et `data/macroeconomie.json` sont générés par les scripts du dossier `outils/` (`python3 outils/comptabilite.py`, `python3 outils/macroeconomie.py`), qui vérifient automatiquement les calculs (écritures équilibrées, réponses valides). Les PDF de cours ne sont pas publiés dans le dépôt.

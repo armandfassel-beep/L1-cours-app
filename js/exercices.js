@@ -34,6 +34,59 @@ function tableauHTML(t) {
   return h;
 }
 
+/* ---------------------------------------------------------
+   Figures (graphiques simples dessinés en SVG)
+   format : {
+     titre?, xlabel, ylabel, xmax, ymax,
+     bissectrice?: true,                       // droite à 45°
+     droites: [{ p1:[x,y], p2:[x,y], label, pointille?, couleur? (1..8) }],
+     guides:  [{ x, y, lx?, ly? }],            // pointillés vers les axes + étiquettes
+     points:  [{ x, y, label }],
+     fleches: [{ de:[x,y], a:[x,y] }],
+     gradx?: [valeurs], grady?: [valeurs]      // graduations chiffrées
+   }
+   --------------------------------------------------------- */
+function figureHTML(f) {
+  if (!f) return '';
+  var L = 460, H = 350, mg = { g: 46, d: 56, h: 18, b: 40 };
+  var lw = L - mg.g - mg.d, lh = H - mg.h - mg.b;
+  var xmax = f.xmax || 100, ymax = f.ymax || 100, xmin = f.xmin || 0, ymin = f.ymin || 0;
+  function X(v) { return mg.g + (v - xmin) / (xmax - xmin) * lw; }
+  function Y(v) { return mg.h + lh - (v - ymin) / (ymax - ymin) * lh; }
+  function txt(x, y, t, anc, cls) { return '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="' + (anc || 'middle') + '" class="' + (cls || '') + '">' + esc(t) + '</text>'; }
+  var s = '<svg class="figure" viewBox="0 0 ' + L + ' ' + H + '" role="img" aria-label="' + esc(f.titre || 'Graphique') + '">';
+  s += '<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fig-pointe"/></marker></defs>';
+  (f.gradx || []).forEach(function (v) { s += '<line class="fig-grille" x1="' + X(v) + '" x2="' + X(v) + '" y1="' + Y(ymin) + '" y2="' + Y(ymax) + '"/>' + txt(X(v), Y(ymin) + 16, nombreFr(v), 'middle', 'fig-grad'); });
+  (f.grady || []).forEach(function (v) { s += '<line class="fig-grille" x1="' + X(xmin) + '" x2="' + X(xmax) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/>' + txt(X(xmin) - 6, Y(v) + 4, nombreFr(v), 'end', 'fig-grad'); });
+  s += '<line class="fig-axe" x1="' + X(xmin) + '" y1="' + Y(ymin) + '" x2="' + (X(xmax) + 10) + '" y2="' + Y(ymin) + '" marker-end="url(#fl)"/>';
+  s += '<line class="fig-axe" x1="' + X(xmin) + '" y1="' + Y(ymin) + '" x2="' + X(xmin) + '" y2="' + (Y(ymax) - 8) + '" marker-end="url(#fl)"/>';
+  s += txt(X(xmax), Y(ymin) + 32, f.xlabel || '', 'end', 'fig-axe-t') + txt(X(xmin) + 6, Y(ymax) - 2, f.ylabel || '', 'start', 'fig-axe-t');
+  if (!xmin && !ymin) s += txt(X(0) - 8, Y(0) + 16, '0', 'end', 'fig-grad');
+  if (f.bissectrice) {
+    var m = Math.min(xmax, ymax);
+    s += '<line class="fig-bis" x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(m) + '" y2="' + Y(m) + '"/>' + txt(X(m) - 4, Y(m) - 6, '45°', 'end', 'fig-grad');
+  }
+  (f.guides || []).forEach(function (g) {
+    s += '<polyline class="fig-guide" points="' + X(g.x) + ',' + Y(ymin) + ' ' + X(g.x) + ',' + Y(g.y) + ' ' + X(xmin) + ',' + Y(g.y) + '"/>';
+    if (g.lx) s += txt(X(g.x), Y(ymin) + 16, g.lx, 'middle', 'fig-lab');
+    if (g.ly) s += txt(X(xmin) - 6, Y(g.y) + 4, g.ly, 'end', 'fig-lab');
+  });
+  (f.droites || []).forEach(function (d) {
+    var c = 'var(--serie-' + (d.couleur || 1) + ')';
+    s += '<line class="fig-droite' + (d.pointille ? ' pointille' : '') + '" style="stroke:' + c + '" x1="' + X(d.p1[0]) + '" y1="' + Y(d.p1[1]) + '" x2="' + X(d.p2[0]) + '" y2="' + Y(d.p2[1]) + '"/>';
+    if (d.label) s += txt(X(d.p2[0]) + 6, Y(d.p2[1]) - 6, d.label, 'start', 'fig-lab');
+  });
+  (f.fleches || []).forEach(function (a) {
+    s += '<line class="fig-fleche" x1="' + X(a.de[0]) + '" y1="' + Y(a.de[1]) + '" x2="' + X(a.a[0]) + '" y2="' + Y(a.a[1]) + '" marker-end="url(#fl)"/>';
+  });
+  (f.points || []).forEach(function (p) {
+    s += '<circle class="fig-point" cx="' + X(p.x) + '" cy="' + Y(p.y) + '" r="5"/>';
+    if (p.label) s += txt(X(p.x) + 8, Y(p.y) - 8, p.label, 'start', 'fig-lab');
+  });
+  s += '</svg>';
+  return '<figure class="figure-boite">' + s + (f.titre ? '<figcaption>' + fmt(f.titre) + '</figcaption>' : '') + '</figure>';
+}
+
 function etoiles(niveau) {
   if (!niveau) return '';
   var n = Math.max(1, Math.min(3, niveau));
@@ -358,8 +411,10 @@ var Exercices = {
     }
     var st = {};
     zone.innerHTML =
-      '<div class="enonce-type">' + LIBELLES_TYPES[exo.type] + etoiles(exo.niveau) + '</div>' +
+      '<div class="enonce-type">' + (exo.figure ? 'Lecture de graphique · ' : '') + LIBELLES_TYPES[exo.type] + etoiles(exo.niveau) +
+      (exo.source ? ' <span class="source">' + esc(exo.source) + '</span>' : '') + '</div>' +
       '<div class="question">' + fmt(exo.question) + '</div>' +
+      (exo.figure ? figureHTML(exo.figure) : '') +
       (exo.tableau ? '<div style="margin-bottom:16px">' + tableauHTML(exo.tableau) + '</div>' : '') +
       '<div class="zone-reponse"></div>' +
       '<div class="actions zone-boutons"><button type="button" class="btn primaire valider">Valider</button></div>' +

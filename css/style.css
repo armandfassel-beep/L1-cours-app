@@ -343,3 +343,24 @@ select.champ { appearance: none; -webkit-appearance: none; background-image: lin
 .cache { display: none !important; }
 kbd { font-family: ui-monospace, Menlo, monospace; background: var(--surface-2); padding: 1px 6px; border-radius: 6px; border: 1px solid var(--bordure); font-size: .9em; }
 code { font-family: ui-monospace, Menlo, monospace; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; font-size: .92em; }
+
+/* ---------- Figures (lecture de graphique) ---------- */
+.figure-boite { margin: 0 0 16px; padding: 12px; background: var(--surface-2); border-radius: 12px; max-width: 560px; }
+.figure-boite figcaption { font-size: .88rem; color: var(--texte-2); margin-top: 6px; }
+.figure { width: 100%; height: auto; display: block; }
+.figure text { font-size: 13px; fill: var(--texte-2); }
+.figure .fig-lab { fill: var(--texte); font-weight: 650; font-size: 14px; }
+.figure .fig-axe-t { fill: var(--texte); font-weight: 650; }
+.figure .fig-grad { font-size: 12px; fill: var(--texte-3); }
+.figure .fig-axe { stroke: var(--texte-2); stroke-width: 1.5; }
+.figure .fig-pointe { fill: var(--texte-2); }
+.figure .fig-grille { stroke: var(--grille); stroke-width: 1; }
+.figure .fig-bis { stroke: var(--texte-3); stroke-dasharray: 5 4; stroke-width: 1.2; }
+.figure .fig-guide { fill: none; stroke: var(--texte-3); stroke-dasharray: 3 3; stroke-width: 1; }
+.figure .fig-droite { stroke-width: 2.5; stroke-linecap: round; }
+.figure .fig-droite.pointille { stroke-dasharray: 8 5; }
+.figure .fig-fleche { stroke: var(--texte); stroke-width: 1.5; }
+.figure .fig-point { fill: var(--texte); stroke: var(--surface-2); stroke-width: 2; }
+.source { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 99px; background: var(--accent-doux); color: var(--accent); font-size: .74rem; letter-spacing: 0; text-transform: none; font-weight: 650; vertical-align: 1px; }
+ul.formules { list-style: none; padding: 0; }
+ul.formules li { background: var(--surface-2); border-radius: 10px; padding: 8px 12px; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
